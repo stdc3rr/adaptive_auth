@@ -1,0 +1,57 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<section class="card">
+  <h2>Вход в систему</h2>
+  <p class="muted">
+    Введите логин/email и пароль. Контекстные признаки собираются автоматически.
+  </p>
+
+  <form id="login-form" class="form-grid">
+    {% csrf_token %}
+    <label
+      >Логин или Email
+      <input type="text" name="identifier" required />
+    </label>
+    <label
+      >Пароль
+      <input type="password" name="password" required />
+    </label>
+
+    <label
+      >Страна (опционально)
+      <input type="text" name="country" placeholder="RU" />
+    </label>
+    <label
+      >Город (опционально)
+      <input type="text" name="city" placeholder="Moscow" />
+    </label>
+    <label
+      >Провайдер (опционально)
+      <input type="text" name="provider" placeholder="Local ISP" />
+    </label>
+    <label
+      >IP репутация (0..1, опционально)
+      <input
+        type="number"
+        name="ipReputation"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.6"
+      />
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" name="vpn" />
+      Используется VPN/Proxy
+    </label>
+    <button type="submit">Войти</button>
+  </form>
+
+  <p id="login-message" class="status"></p>
+</section>
+<script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}

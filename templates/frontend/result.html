@@ -1,0 +1,62 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Результат входа{% endblock %}
+
+{% block content %}
+<section class="card" id="result-card">
+  <h2>Результат адаптивной проверки</h2>
+
+  <div class="risk-summary">
+    <div>
+      <p class="muted">Итоговый риск</p>
+      <p id="risk-score" class="metric">0.00</p>
+    </div>
+    <div>
+      <p class="muted">Уровень риска</p>
+      <p id="risk-level" class="badge">-</p>
+    </div>
+    <div>
+      <p class="muted">Решение</p>
+      <p id="risk-decision" class="metric-small">-</p>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div id="risk-progress" class="progress-bar"></div>
+  </div>
+
+  <h3>Вклады факторов</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Фактор</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody id="factor-table"></tbody>
+  </table>
+
+  <h3>Краткое пояснение</h3>
+  <ul id="explanations"></ul>
+
+  <section id="mfa-box" class="mfa-box hidden">
+    <h3>Дополнительная проверка (MFA)</h3>
+    <p>Введите одноразовый код.</p>
+    <p class="muted" id="demo-code"></p>
+    <form id="mfa-form" class="inline-form">
+      {% csrf_token %}
+      <input
+        type="text"
+        name="code"
+        maxlength="6"
+        placeholder="000000"
+        required
+      />
+      <button type="submit">Подтвердить</button>
+    </form>
+    <p id="mfa-message" class="status"></p>
+  </section>
+</section>
+<script src="{% static 'js/result.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'frontend/base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<section class="card">
+  <h2>Профиль пользователя</h2>
+  <p><strong>Пользователь:</strong> {{ request.user.username }}</p>
+  <p><strong>Email:</strong> {{ request.user.email }}</p>
+</section>
+
+<section class="card">
+  <h3>Уведомления безопасности</h3>
+  {% if notifications %}
+  <ul>
+    {% for n in notifications %}
+    <li>
+      <strong>{{ n.title }}</strong> - {{ n.message }}
+      <span class="muted">({{ n.created_at }})</span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">Уведомлений пока нет.</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h3>Последние попытки входа</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Время</th>
+        <th>Статус</th>
+        <th>Решение</th>
+        <th>Риск</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in recent_attempts %}
+      <tr>
+        <td>{{ a.created_at }}</td>
+        <td>{{ a.status }}</td>
+        <td>{{ a.decision }}</td>
+        <td>{{ a.risk_score }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4">Пока нет данных</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
